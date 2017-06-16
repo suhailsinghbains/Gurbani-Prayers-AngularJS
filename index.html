@@ -4,7 +4,7 @@
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <link rel="prefetch" href="Anand Sahib.mp3">
       <link rel="prefetch" href="Chaupai Sahib.mp3">
@@ -37,11 +37,24 @@
         <h2>You selected: {{G_name}}</h2>
         <audio controls="controls" name="Audio Name" ng-src="{{getAudioUrl()}}">
         </audio>
+        <!--<ul class="collection with-header browser-default" >
+          <li class="collection-header"><h4>{{G_name}}</h4></li>
+          <li class="collection-item" ng-repeat="x in Gurbani()">{{x.model}}</li>
+          <li class="collection-item">Alvin</li>
+          <li class="collection-item">Alvin</li>
+          <li class="collection-item">Alvin</li>
+        </ul>-->
+        <ul class="collection with-header">
+          <li class="collection-header"><h4>{{G_name}}</h4></li>
+          <li ng-repeat="x in Gurbani()" class="collection-item">
+            {{x}}
+          </br>
+          </li>
       </div>
       <!-- Angular JS Scripts-->
       <script>
       var app = angular.module('myApp', []);
-      app.controller('myCtrl', function($scope, $sce) {
+      app.controller('myCtrl', function($scope, $http, $sce) {
           $scope.g_names = [
               {model : "Anand Sahib"},
               {model : "Chaupai Sahib"},
@@ -55,6 +68,20 @@
           $scope.getAudioUrl=function(){
              return $sce.trustAsResourceUrl($scope.G_name+'.mp3');
         };
+          var ABC;
+            $http.get('Anand Sahib.html').then(function (result) {
+              ABC = result.data;
+            });
+        /*ABC={ "records":
+          [
+            {"words":"Anand Sahib","Time":"0"},
+            {"words":"Anand Sahib_1","Time":"100"}
+          ]
+        };*/
+        $scope.Gurbani=function(){
+            return ABC.records;
+        };
+
       });
       </script>
   </html>
