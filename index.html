@@ -28,15 +28,15 @@
       <script type="text/javascript" src="js/materialize.min.js"></script>
       <!-- Dropdown Menu-->
       <div ng-app="myApp" ng-controller="myCtrl">
+        <audio autoplay>
+          <source src="NONE.mp3">
+        </audio>
         <p>Select Gurbani:</p>
 
-        <select ng-model="G_name" ng-init="G_name='Anand Sahib'" class="browser-default">
+        <!--<select ng-model="G_name" ng-init="G_name='Anand Sahib'" class="browser-default">
           <option ng-repeat="x in g_names" value="{{x.model}}">{{x.model}}</option>
-        </select>
-        <!-- Checking the updattion of the value-->
-        <h2>You selected: {{G_name}}</h2>
-        <audio controls="controls" name="Audio Name" ng-src="{{getAudioUrl()}}">
-        </audio>
+        </select>-->
+
         <!--<ul class="collection with-header browser-default" >
           <li class="collection-header"><h4>{{G_name}}</h4></li>
           <li class="collection-item" ng-repeat="x in Gurbani()">{{x.model}}</li>
@@ -44,42 +44,64 @@
           <li class="collection-item">Alvin</li>
           <li class="collection-item">Alvin</li>
         </ul>-->
-        <ul class="collection with-header">
-          <li class="collection-header"><h4>{{G_name}}</h4></li>
-          <li ng-repeat="x in Gurbani()" class="collection-item">
-            {{x}}
-          </br>
+        <!--<div ng-model="G_name" ng-init="G_name='Anand Sahib'">{{G_name}}</div>-->
+        <ul class="collapsible popout" data-collapsible="accordion" ng-model="G_name" ng-init="G_name='NONE'">
+          <li ng-repeat="x in g_names">
+            <div class="collapsible-header"><img class="circle" src="{{x.model}}.png" height="42" width="42">{{x.model}}</div>
+            <div class="collapsible-body" ng-init="G_name=x.model">
+              <span>
+            <audio controls="controls">
+              <source src="{{G_name}}.mp3">
+            </audio>
+            <span ng-repeat="y in Gurbani(x.id)"></br>{{y}}</span></span
+            </div>
           </li>
+        </ul>
       </div>
       <!-- Angular JS Scripts-->
       <script>
       var app = angular.module('myApp', []);
       app.controller('myCtrl', function($scope, $http, $sce) {
           $scope.g_names = [
-              {model : "Anand Sahib"},
-              {model : "Chaupai Sahib"},
-              {model : "Jaap Sahib"},
-              {model : "Japji Sahib"},
-              {model : "Kirtan Sohila"},
-              {model : "Rehraas Sahib"},
-              {model : "Sukhmani Sahib"},
-              {model : "Tav Parsad Savaiye"}
+              {model : "Anand Sahib", id:"0"},
+              {model : "Chaupai Sahib", id:"1"},
+              {model : "Jaap Sahib", id:"2"},
+              {model : "Japji Sahib", id:"3"},
+              {model : "Kirtan Sohila", id:"4"},
+              {model : "Rehraas Sahib", id:"5"},
+              {model : "Sukhmani Sahib", id:"6"},
+              {model : "Tav Parsad Savaiye", id:"7"}
           ];
-          $scope.getAudioUrl=function(){
+          /*$scope.getAudioUrl=function(){
              return $sce.trustAsResourceUrl($scope.G_name+'.mp3');
-        };
-          var ABC;
-            $http.get('Anand Sahib.html').then(function (result) {
-              ABC = result.data;
-            });
-        /*ABC={ "records":
-          [
-            {"words":"Anand Sahib","Time":"0"},
-            {"words":"Anand Sahib_1","Time":"100"}
-          ]
         };*/
-        $scope.Gurbani=function(){
-            return ABC.records;
+          var a=[];
+            $http.get('Anand Sahib.html').then(function (result) {
+              a[0] = result.data;
+            });
+            $http.get('Chaupai Sahib.html').then(function (result) {
+              a[1] = result.data;
+            });
+            $http.get('Jaap Sahib.html').then(function (result) {
+              a[2] = result.data;
+            });
+            $http.get('Japji Sahib.html').then(function (result) {
+              a[3] = result.data;
+            });
+            $http.get('Kirtan Sohila.html').then(function (result) {
+              a[4] = result.data;
+            });
+            $http.get('Rehraas Sahib.html').then(function (result) {
+              a[5] = result.data;
+            });
+            $http.get('Sukhmani Sahib.html').then(function (result) {
+              a[6] = result.data;
+            });
+            $http.get('Tav Parsad Savaiye.html').then(function (result) {
+              a[7] = result.data;
+            });
+        $scope.Gurbani=function(i){
+            return a[i].records;
         };
 
       });
