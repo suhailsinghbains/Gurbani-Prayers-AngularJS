@@ -15,14 +15,6 @@
       <link rel="prefetch" href="Rehraas Sahib.mp3">
       <link rel="prefetch" href="Sukhmani Sahib.mp3">
       <link rel="prefetch" href="Tav Parsad Savaiye.mp3">
-      <link rel="prefetch" href="Anand Sahib.html">
-      <link rel="prefetch" href="Chaupai Sahib.html">
-      <link rel="prefetch" href="Jaap Sahib.html">
-      <link rel="prefetch" href="Japji Sahib.html">
-      <link rel="prefetch" href="Kirtan Sohila.html">
-      <link rel="prefetch" href="Rehraas Sahib.html">
-      <link rel="prefetch" href="Sukhmani Sahib.html">
-      <link rel="prefetch" href="Tav Parsad Savaiye.html">
     </head>
     <body>
       <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -57,10 +49,12 @@
             <div class="collapsible-header"><img class="circle" src="{{x.model}}.png" height="42" width="42">{{x.model}}</div>
             <div class="collapsible-body" ng-init="G_name=x.model">
               <span>
+            <center>
             <audio controls="controls">
               <source src="{{G_name}}.mp3">
             </audio>
             <span ng-repeat="y in Gurbani(x.id)"></br>{{y.English}}</span></span>
+          </center>
             </div>
           </li>
         </ul>
