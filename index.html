@@ -15,20 +15,26 @@
       <link rel="prefetch" href="Rehraas Sahib.mp3">
       <link rel="prefetch" href="Sukhmani Sahib.mp3">
       <link rel="prefetch" href="Tav Parsad Savaiye.mp3">
-      <style>
-        select{
-          background-color: #009688;
-          color: white;
-        }
-        audio{
-          background-color: #95B9C7;
-        }
-      </style>
+      <link rel="prefetch" href="Anand Sahib.html">
+      <link rel="prefetch" href="Chaupai Sahib.html">
+      <link rel="prefetch" href="Jaap Sahib.html">
+      <link rel="prefetch" href="Japji Sahib.html">
+      <link rel="prefetch" href="Kirtan Sohila.html">
+      <link rel="prefetch" href="Rehraas Sahib.html">
+      <link rel="prefetch" href="Sukhmani Sahib.html">
+      <link rel="prefetch" href="Tav Parsad Savaiye.html">
     </head>
     <body>
       <script type="text/javascript" src="js/materialize.min.js"></script>
       <!-- Dropdown Menu-->
       <div ng-app="myApp" ng-controller="myCtrl">
+        <div class="hide-on-large-only">
+          <a class="btn" onclick="Materialize.toast('Playing', 1000,'',function(){
+          var audio = new Audio('NONE.mp3');
+          audio.play();
+        })">Play!</a>
+      </div>
+
         <audio autoplay>
           <source src="NONE.mp3">
         </audio>
@@ -54,7 +60,7 @@
             <audio controls="controls">
               <source src="{{G_name}}.mp3">
             </audio>
-            <span ng-repeat="y in Gurbani(x.id)"></br>{{y}}</span></span
+            <span ng-repeat="y in Gurbani(x.id)"></br>{{y.English}}</span></span>
             </div>
           </li>
         </ul>
@@ -104,7 +110,6 @@
         $scope.Gurbani=function(i){
             return a[i].records;
         };
-
       });
       </script>
   </html>
