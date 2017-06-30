@@ -20,18 +20,32 @@
       <script type="text/javascript" src="js/materialize.min.js"></script>
       <!-- Dropdown Menu-->
       <div ng-app="myApp" ng-controller="myCtrl">
-        <div class="hide-on-large-only">
+        <!--<div class="hide-on-large-only">
           <a class="btn" onclick="Materialize.toast('Playing', 1000,'',function(){
-          var audio = new Audio('NONE.mp3');
-          audio.play();
-        })">Play!</a>
-      </div>
-
-        <audio autoplay>
+            var audio = new Audio('NONE.mp3');
+            audio.play();
+            })">Play!
+          </a>
+        </div>-->
+        <!--<audio autoplay>
           <source src="NONE.mp3">
-        </audio>
+        </audio>-->
         <p>Select Gurbani:</p>
-
+        <div class="row center" ng-model="G_name" ng-init="G_name='NONE'">
+          <div class="col s3 m3" ng-repeat="x in g_names">
+            <div class="card">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img  src="{{x.model}}.png"  ng-click="myFunc(x.id)">
+                {{x.model}}
+              </div>
+            </div>
+          </div>
+        </br><br>
+          <h4><strong>You selected: {{G_name}}</br></strong></h4>
+          <audio ng-src="{{G_name}}.mp3" audioplayer controls></audio>
+          <h5 id="demo"></h5>
+        </div>
+      </div>
         <!--<select ng-model="G_name" ng-init="G_name='Anand Sahib'" class="browser-default">
           <option ng-repeat="x in g_names" value="{{x.model}}">{{x.model}}</option>
         </select>-->
@@ -44,12 +58,12 @@
           <li class="collection-item">Alvin</li>
         </ul>-->
         <!--<div ng-model="G_name" ng-init="G_name='Anand Sahib'">{{G_name}}</div>-->
-        <ul class="collapsible popout" data-collapsible="accordion" ng-model="G_name" ng-init="G_name='NONE'">
+        <!--<ul class="collapsible popout" data-collapsible="accordion" ng-model="G_name" ng-init="G_name='NONE'">
           <li ng-repeat="x in g_names">
-            <div class="collapsible-header"><img class="circle" src="{{x.model}}.png" height="42" width="42">{{x.model}}</div>
+            <div class="collapsible-header"><img class="circle" src="{{x.model}}.png" height="30" width="30">{{x.model}}</div>
             <div class="collapsible-body" ng-init="G_name=x.model">
               <span>
-            <center>
+                <center>
             <audio controls="controls">
               <source src="{{G_name}}.mp3">
             </audio>
@@ -58,7 +72,7 @@
             </div>
           </li>
         </ul>
-      </div>
+      </div>-->
       <!-- Angular JS Scripts-->
       <script>
       var app = angular.module('myApp', []);
@@ -103,6 +117,13 @@
             });
         $scope.Gurbani=function(i){
             return a[i].records;
+        };
+        $scope.myFunc=function(c){
+          document.getElementById("demo").innerHTML=null;
+          $scope.G_name = $scope.g_names[c].model;
+          for(var m=0 ; m<100 ; m++){
+            document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML +"<br>"+ $scope.Gurbani(c)[m].English;
+          }
         };
       });
       </script>
