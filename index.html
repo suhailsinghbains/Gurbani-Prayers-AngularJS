@@ -6,6 +6,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <style>
+      i.icon-orange {
+        color: orange;
+      }
+      </style>
       <link rel="prefetch" href="NONE.mp3">
       <link rel="prefetch" href="Anand Sahib.mp3">
       <link rel="prefetch" href="Chaupai Sahib.mp3">
@@ -20,6 +25,8 @@
       <script type="text/javascript" src="js/materialize.min.js"></script>
       <!-- Dropdown Menu-->
       <div ng-app="myApp" ng-controller="myCtrl">
+        <i class="medium material-icons icon-orange right" ng-click="ChangeLanguage();" ng-model="Language" ng-init="Language='English'">language</i>
+        </br>
         <!--<div class="hide-on-large-only">
           <a class="btn" onclick="Materialize.toast('Playing', 1000,'',function(){
             var audio = new Audio('NONE.mp3');
@@ -30,7 +37,7 @@
         <!--<audio autoplay>
           <source src="NONE.mp3">
         </audio>-->
-        <p>Select Gurbani:</p>
+        <h5 class="center">Select Gurbani:</h5>
         <div class="row center" ng-model="G_name" ng-init="G_name='NONE'">
           <div class="col s3 m3" ng-repeat="x in g_names">
             <div class="card">
@@ -43,7 +50,10 @@
         </br><br>
           <h4><strong>You selected: {{G_name}}</br></strong></h4>
           <audio ng-src="{{G_name}}.mp3" audioplayer controls></audio>
-          <h5 id="demo"></h5>
+          <h5 id="demo">
+            <h5 style="font-weight:bold" id="test">
+            </h5>
+          </h5>
         </div>
       </div>
         <!--<select ng-model="G_name" ng-init="G_name='Anand Sahib'" class="browser-default">
@@ -118,11 +128,36 @@
         $scope.Gurbani=function(i){
             return a[i].records;
         };
+        $scope.ChangeLanguage=function(){
+          $scope.Language = ($scope.Language == "Punjabi") ? "English" : "Punjabi" ;
+        };
         $scope.myFunc=function(c){
           document.getElementById("demo").innerHTML=null;
           $scope.G_name = $scope.g_names[c].model;
-          for(var m=0 ; m<100 ; m++){
-            document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML +"<br>"+ $scope.Gurbani(c)[m].English;
+          var i=0;
+          setTimeout(repeatFunc, 2000);
+          function repeatFunc(){
+            if(i<100)
+            {
+              var thisTime = a[c].records[i].Time;
+              var newTime = a[c].records[i+1].Time;
+              var z = newTime - thisTime;
+              addLinesOfGurbani();
+              Timer(z*1000);
+              i++;
+              function addLinesOfGurbani(){
+                document.getElementById("test").innerHTML = $scope.Gurbani(c)[i][$scope.Language];
+                if(i!=0)
+                {
+                  document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML +"<br>"+ $scope.Gurbani(c)[i-1][$scope.Language];
+                }
+              }
+              function Timer (delay)
+              {
+                setTimeout(window.scrollBy(0,5000), 5000);
+                setTimeout(repeatFunc, delay);
+              }
+            }
           }
         };
       });
