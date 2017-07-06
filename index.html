@@ -49,7 +49,8 @@
           </div>
         </br><br>
           <h4><strong>You selected: {{G_name}}</br></strong></h4>
-          <audio ng-src="{{G_name}}.mp3" audioplayer controls></audio>
+          <audio id="myAudio" ng-src="{{G_name}}.mp3"></audio>
+          <!--<audio ng-src="{{G_name}}.mp3" audioplayer controls></audio>-->
           <h5 id="demo">
             <h5 style="font-weight:bold" id="test">
             </h5>
@@ -130,13 +131,40 @@
         };
         $scope.ChangeLanguage=function(){
           $scope.Language = ($scope.Language == "Punjabi") ? "English" : "Punjabi" ;
+          //Whole Page Refresh
         };
+        var audio = new Audio("NONE.mp3");
+        audio.play();
         $scope.myFunc=function(c){
-          document.getElementById("demo").innerHTML=null;
           $scope.G_name = $scope.g_names[c].model;
+          audio.pause();
+          audio = new Audio($scope.G_name+'.mp3');
+          audio.play();
           var i=0;
-          setTimeout(repeatFunc, 2000);
+          document.getElementById("demo").innerHTML = null;
+          document.getElementById("test").innerHTML = null;
+          repeatFunc();
           function repeatFunc(){
+            if(i<100){
+              updateLines();
+              function updateLines(){
+                  document.getElementById("test").innerHTML = $scope.Gurbani(c)[i][$scope.Language];
+                  if(i!=0){
+                      document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + "<br>" + $scope.Gurbani(c)[i-1][$scope.Language];
+                  }
+              }
+              i++;
+            }
+            else{
+              audio.pause();
+            }
+            var thisTime = a[c].records[i-1].Time ;
+            var newTime = a[c].records[i].Time;
+            var z = newTime - thisTime;
+            z=z*1000;
+            setTimeout(repeatFunc, z);
+          }
+          /*function repeatFunc(){
             if(i<100)
             {
               var thisTime = a[c].records[i].Time;
@@ -159,6 +187,7 @@
               }
             }
           }
+          */
         };
       });
       </script>
