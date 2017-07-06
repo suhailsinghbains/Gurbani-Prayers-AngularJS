@@ -25,7 +25,10 @@
       <script type="text/javascript" src="js/materialize.min.js"></script>
       <!-- Dropdown Menu-->
       <div ng-app="myApp" ng-controller="myCtrl">
-        <i class="medium material-icons icon-orange right" ng-click="ChangeLanguage();" ng-model="Language" ng-init="Language='English'">language</i>
+        <div class="container">
+          <i class="medium material-icons icon-orange" ng-click="myPauseFunc()">pause_circle_filled</i>
+          <i class="medium material-icons icon-orange right" ng-click="ChangeLanguage();" ng-model="Language" ng-init="Language='English'">language</i>
+        </div>
         </br>
         <!--<div class="hide-on-large-only">
           <a class="btn" onclick="Materialize.toast('Playing', 1000,'',function(){
@@ -135,6 +138,11 @@
         };
         var audio = new Audio("NONE.mp3");
         audio.play();
+        var flag=0;
+        $scope.myPauseFunc=function(){
+          flag=1;
+          audio.pause();
+        };
         $scope.myFunc=function(c){
           $scope.G_name = $scope.g_names[c].model;
           audio.pause();
@@ -162,7 +170,12 @@
             var newTime = a[c].records[i].Time;
             var z = newTime - thisTime;
             z=z*1000;
-            setTimeout(repeatFunc, z);
+            if(flag==0){
+              setTimeout(repeatFunc, z);
+            }
+            else{
+              flag=0;
+            }
           }
           /*function repeatFunc(){
             if(i<100)
