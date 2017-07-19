@@ -38,23 +38,37 @@
         </div>
         </br>
         <h5 class="center">Select Gurbani:</h5>
-        <div class="row center" ng-model="G_name" ng-init="G_name='NONE'" id="small">
-          <div class="col s3 m3" ng-repeat="x in g_names">
-            <div class="card">
-              <div class="card-image waves-effect waves-block waves-light">
-                <img  ng-src="{{x.English}}.png"  ng-click="myFunc(x.id)">
-                {{x[Language]}}
+        <div class="container center" id="small">
+          <div class="row center" ng-model="G_name" ng-init="G_name='NONE'">
+            <div class="col s3 m3" ng-repeat="x in g_names">
+              <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img  ng-src="{{x.English}}.png"  ng-click="myFunc(x.id)">
+                  {{x[Language]}}
+                </div>
               </div>
             </div>
           </div>
-        </br><br>
+          <div class="fixed-action-btn horizontal">
+            <a class="btn-floating btn-large orange">
+              <i class="large material-icons">menu</i>
+            </a>
+            <ul>
+              <li><a class="btn-floating" style="background: rgb(198, 68, 252);" href="https://www.facebook.com/Gurbani-Prayers-1753860768179556/"><i class="material-icons">favorite</i></a></li>
+              <li><a class="btn-floating" style="background: rgb(239, 77, 182);" href="credits.html"><i class="material-icons">people</i></a></li>
+              <li><a class="btn-floating" style="background: rgb(29, 98, 240);" href="support.html"><i class="material-icons">credit_card</i></a></li>
+            </ul>
+          </div>
+          </br><br>
           <h4><strong>You selected: {{G_name}}</br></strong></h4>
           <audio id="myAudio" ng-src="{{G_name}}.mp3"></audio>
           <!--<audio ng-src="{{G_name}}.mp3" audioplayer controls></audio>-->
-          <h5 id="demo">
-            <h5 style="font-weight:bold" id="test">
+          <div id="myDiv">
+            <h5 id="demo">
+              <h5 style="font-weight:bold" id="test">
+              </h5>
             </h5>
-          </h5>
+          </div>
         </div>
       </div>
       <!-- Angular JS Scripts-->
@@ -127,7 +141,8 @@
         };
         var i,x;
         $scope.myFunc=function(c){
-          document.getElementById('small').style.width = '50%';
+          window.location.hash = '#myDiv';
+          document.getElementById('small').style.width = '47%';
           x=c;
           $scope.G_name = $scope.g_names[c].English;
           audio.pause();
@@ -143,10 +158,16 @@
             if(i<100){
               updateLines();
               function updateLines(){
-                  document.getElementById("test").innerHTML = $scope.Gurbani(c)[i][$scope.Language];
-                  if(i!=0){
-                      document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + "<br>" + $scope.Gurbani(c)[i-1][$scope.Language];
-                  }
+                if(i>=3){
+                  var pre_2lines = $scope.Gurbani(c)[i-2][$scope.Language] + "<br>" + "<br>" + $scope.Gurbani(c)[i-1][$scope.Language];
+                  var next_2lines = $scope.Gurbani(c)[i+1][$scope.Language] + "<br>" + "<br>" + $scope.Gurbani(c)[i+2][$scope.Language];
+                  document.getElementById("test").innerHTML = pre_2lines + "<br>" + "<br>" + $scope.Gurbani(c)[i][$scope.Language] + "<br>" + "<br>" + next_2lines;
+                  document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + "<br>" + $scope.Gurbani(c)[i-3][$scope.Language];
+                }
+                else {
+                  var next_2lines = $scope.Gurbani(c)[1][$scope.Language] + "<br>" + "<br>" + $scope.Gurbani(c)[2][$scope.Language];
+                  document.getElementById("test").innerHTML = $scope.Gurbani(c)[0][$scope.Language] + "<br>" + "<br>" + next_2lines;
+                }
               }
               i++;
             }
